@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useReducer } from 'react';
-import { localStorageKeys } from '~/constants/localStorageKeys';
+import { localStorageKeys } from 'constants/localStorageKeys';
 import { authReducer } from './authReducer';
 
 const rememberedUserData = JSON.parse(

@@ -1,5 +1,5 @@
-import { localStorageKeys } from '~/constants/localStorageKeys';
-import { updateState } from '~/utils/updateState';
+import { localStorageKeys } from 'constants/localStorageKeys';
+import { updateState } from 'utils/updateState';
 import authActionTypes from './authActionTypes';
 import { defaultAuthState } from './AuthContext';
 
