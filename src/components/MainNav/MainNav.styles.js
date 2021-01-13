@@ -13,6 +13,7 @@ export const StyledMainNav = styled.header`
   gap: 2em;
   padding: 0em 6em;
   box-shadow: 0px 10px 20px 10px rgba(0, 0, 0, 0.3);
+  flex: 0 1 auto;
   @media (min-width: 478px) {
     height: 15em;
   }

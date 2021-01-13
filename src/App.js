@@ -1,5 +1,6 @@
 import MainNav from 'components/MainNav';
 import { appTheme } from 'constants/appTheme';
+import { ContactsProvider } from 'context/ContactsContext/ContactsContext';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import './App.css';
@@ -11,13 +12,15 @@ function App() {
   return (
     <AuthProvider>
       <ThemeProvider theme={appTheme}>
-        <AppStyles />
-        <Router>
-          <AppWrapper>
-            <MainNav />
-            <Routes />
-          </AppWrapper>
-        </Router>
+        <ContactsProvider>
+          <AppStyles />
+          <Router>
+            <AppWrapper>
+              <MainNav />
+              <Routes />
+            </AppWrapper>
+          </Router>
+        </ContactsProvider>
       </ThemeProvider>
     </AuthProvider>
   );

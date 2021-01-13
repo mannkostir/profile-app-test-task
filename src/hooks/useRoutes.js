@@ -1,4 +1,5 @@
 import { useAuthContext } from 'context/AuthContext/useAuthContext';
+import Contacts from 'pages/Contacts';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
 const AuthOnlyRoute = ({ children, ...args }) => {
@@ -25,7 +26,9 @@ export const useRoutes = () => {
   const initRoutes = () => {
     return (
       <Switch>
-        <AuthOnlyRoute></AuthOnlyRoute>
+        <AuthOnlyRoute>
+          <Contacts />
+        </AuthOnlyRoute>
         <UnAuthOnlyRoute></UnAuthOnlyRoute>
       </Switch>
     );
