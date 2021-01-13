@@ -1,9 +1,11 @@
 export const appTheme = {
+  primaryColor: '#AB37D4',
   mainNavBackground:
-    'background: linear-gradient(268deg, #AB37D4 0%, #5537D4 100%);',
-  fontColor: '#151515',
+    'linear-gradient(45deg, rgba(213, 15, 61, 0.6), rgba(13, 17, 198, 0.69) 100%)',
   background: '#EFEFEF',
+  fontColor: '#151515',
+  fontAccentColor: '#EDEDED',
   surfaceBackground: '#FFFFFF',
   surfaceAccentBackground:
-    'background: linear-gradient(180deg, rgba(171, 55, 212, 0.7) 0%, rgba(171, 55, 212, 0.3) 100%);',
+    'linear-gradient(180deg, rgba(171, 55, 212, 0.7) 0%, rgba(171, 55, 212, 0.3) 100%)',
 };

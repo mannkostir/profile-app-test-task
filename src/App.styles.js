@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 
 export const AppStyles = createGlobalStyle`
   body {
@@ -9,6 +9,7 @@ export const AppStyles = createGlobalStyle`
     font-size: 14px;
     box-sizing: border-box;
     color: #151515;
+    margin: 0;
     @media (max-width: 1600px) {
       // Credit for math: https://www.madebymike.com.au/writing/precise-control-responsive-typography/
 
@@ -36,6 +37,7 @@ export const AppStyles = createGlobalStyle`
   img {
     width: 100%;
     height: auto;
+    max-height: 100%;
   }
   h1 {
     font-size: 3em;
@@ -47,4 +49,10 @@ export const AppStyles = createGlobalStyle`
     margin: 0.5em;
     margin-bottom: 0.8em;
   }
+`;
+
+export const AppWrapper = styled.div`
+  position: relative;
+  min-height: 100vh;
+  margin: 0 auto;
 `;
