@@ -1,7 +1,7 @@
 import Container from 'components/Container';
 import ProfilePhoto from 'components/ProfilePhoto';
 import { useAuthContext } from 'context/AuthContext/useAuthContext';
-import React from 'react';
+import React, { useState } from 'react';
 import {
   NavLinksList,
   SignOutButton,
@@ -11,10 +11,10 @@ import {
 } from './MainNav.styles';
 
 const MainNav = () => {
-  const { signOut } = useAuthContext();
+  const { signOut, isAuthenticated } = useAuthContext();
 
   return (
-    <StyledMainNav>
+    <StyledMainNav data-isVisible={isAuthenticated}>
       <Container>
         <ProfilePhoto />
         <NavLinksList>

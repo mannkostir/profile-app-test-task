@@ -14,6 +14,11 @@ export const StyledMainNav = styled.header`
   padding: 0em 6em;
   box-shadow: 0px 10px 20px 10px rgba(0, 0, 0, 0.3);
   flex: 0 1 auto;
+  overflow: hidden;
+  transition: height 0.5s ease;
+  &[data-isVisible='false'] {
+    height: 0;
+  }
   @media (min-width: 478px) {
     height: 15em;
   }

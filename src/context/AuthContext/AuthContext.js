@@ -9,7 +9,7 @@ const rememberedUserData = JSON.parse(
 const IAuthContext = {
   state: {
     username: '',
-    userId: 'asd',
+    userId: '',
   },
   dispatch: () => {},
 };
