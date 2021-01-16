@@ -5,7 +5,7 @@ const DeleteContact = () => {
   const { setDeleteRequest } = useContactsContext();
 
   return (
-    <div>
+    <div style={{ display: 'flex', gap: '1em' }}>
       Do you really want to delete the contact?
       <button
         onClick={() => {

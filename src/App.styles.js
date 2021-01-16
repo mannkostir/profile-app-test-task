@@ -14,6 +14,19 @@ export const AppStyles = createGlobalStyle`
     > * {
       box-sizing: border-box;
     }
+    &[isoverlay="true"]::before {
+      content: '';
+      height: 100%;
+      width: 100%;
+      position: fixed;
+      z-index: 2;
+      left: 0;
+      top: 0;
+      background: rgb(0, 0, 0);
+      background: rgba(0, 0, 0, 0.7);
+      overflow-x: hidden;
+      transition: 0.5s ease;
+    }
     @media (max-width: 1600px) {
       // Credit for math: https://www.madebymike.com.au/writing/precise-control-responsive-typography/
 
@@ -51,16 +64,30 @@ export const AppStyles = createGlobalStyle`
     }
     font-size: 1em;
   }
-  button[type="submit"] {
+  button[type=submit] {
     background: ${({ theme }) => theme.primaryColor};
     color: ${({ theme }) => theme.fontColor};
     padding: 0.5em;
     border-radius: 0.5em;
+    box-shadow: 0 0 3px 3px ${({ theme }) => theme.boxShadowColor};
     &:hover {
       color: ${({ theme }) => theme.fontAccentColor};
+      text-decoration: none;
     }
     &:disabled {
-      background: red;
+      filter: grayscale(60%);
+    }
+    &:disabled:hover {
+      color: ${({ theme }) => theme.fontColor};
+      text-decoration: none;
+    }
+    &:active {
+      box-shadow: 0 0 1px 1px ${({ theme }) => theme.boxShadowColor};
+    }
+  }
+  button {
+    &:hover {
+      text-decoration: underline;
     }
   }
   ul {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   CloseDialogButton,
   CloseDialogIcon,
@@ -11,6 +11,9 @@ const ModalDialog = ({
   children,
   ...args
 }) => {
+  useEffect(() => {
+    document.body.setAttribute('isoverlay', isOpen);
+  }, [isOpen]);
   return isOpen ? (
     <StyledDialog {...args}>
       <CloseDialogButton onClick={onClose}>

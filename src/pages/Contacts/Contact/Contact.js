@@ -32,7 +32,6 @@ const Contact = ({
         <ControlButtons.EditButton />
         <ControlButtons.DeleteButton
           onClick={() => {
-            console.log(contactData);
             setDeleteRequest({ contactId: contactData.contactId });
           }}
         />

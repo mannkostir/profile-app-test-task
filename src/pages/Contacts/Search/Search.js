@@ -85,10 +85,16 @@ const Search = ({ setFilteredContacts = (contacts) => {} }) => {
           ref={searchInput}
           onChange={handleChange}
         />
-        <button disabled={error?.message} type="submit" onClick={handleSubmit}>
-          Search
-        </button>
-        <button onClick={handleReset}>Reset</button>
+        <div style={{ display: 'flex', gap: '1em' }}>
+          <button
+            disabled={error?.message}
+            type="submit"
+            onClick={handleSubmit}
+          >
+            Search
+          </button>
+          <button onClick={handleReset}>Reset</button>
+        </div>
       </SearchForm>
     </SideSection>
   );

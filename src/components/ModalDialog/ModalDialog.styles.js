@@ -7,15 +7,16 @@ export const StyledDialog = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   background: ${({ theme }) => theme.surfaceBackground};
   color: ${({ theme }) => theme.fontColor};
-  z-index: 1;
+  z-index: 2;
   padding: 5%;
-  /* min-height: 30%;
-  min-width: 30%; */
+  min-height: 15em;
+  min-width: 15em;
   max-height: 100vh;
   max-width: 100vw;
   border-radius: 5%;

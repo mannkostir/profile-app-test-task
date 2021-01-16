@@ -93,10 +93,12 @@ const ContactsList = ({ filteredContacts = null }) => {
           <ModalDialog
             isOpen={!!deleteRequest?.contactId}
             onClose={() => setDeleteRequest({})}
-            style={{ zIndex: '2' }}
+            style={{ zIndex: '3' }}
           >
-            Do you really want to delete the contact?
-            <div>
+            <span style={{ marginBottom: '1.5em' }}>
+              Do you really want to delete the contact?
+            </span>
+            <div style={{ display: 'flex', gap: '1em' }}>
               <button
                 onClick={() => {
                   setDeleteRequest({});
@@ -116,7 +118,7 @@ const ContactsList = ({ filteredContacts = null }) => {
               </button>
             </div>
           </ModalDialog>
-          <ModalDialog isOpen={isOn} onClose={toggle} style={{ zIndex: '1' }}>
+          <ModalDialog isOpen={isOn} onClose={toggle}>
             <Contact contactData={contactData} />
           </ModalDialog>
           <StyledContactsList>

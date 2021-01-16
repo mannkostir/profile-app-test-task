@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
-import { AuthWrapper } from './Auth.styles';
+import {
+  AuthWrapper,
+  ButtonsWrapper,
+  SignInButton,
+  SignUpButton,
+} from './Auth.styles';
 import SignInForm from './SignInForm';
 import SignUpForm from './SignUpForm';
 
@@ -8,10 +13,10 @@ const Auth = () => {
 
   return (
     <AuthWrapper>
-      <div>
-        <button onClick={() => setIsSignUp(true)}>Sign Up</button>
-        <button onClick={() => setIsSignUp(false)}>Sign In</button>
-      </div>
+      <ButtonsWrapper>
+        <SignUpButton onClick={() => setIsSignUp(true)}>Sign Up</SignUpButton>
+        <SignInButton onClick={() => setIsSignUp(false)}>Sign In</SignInButton>
+      </ButtonsWrapper>
       {isSignUp ? <SignUpForm /> : <SignInForm />}
     </AuthWrapper>
   );

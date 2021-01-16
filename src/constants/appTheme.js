@@ -9,4 +9,5 @@ export const appTheme = {
   surfaceBackground: '#FFFFFF',
   surfaceAccentBackground:
     'linear-gradient(180deg, rgba(171, 55, 212, 0.7) 0%, rgba(171, 55, 212, 0.3) 100%)',
+  buttonDisabledColor: '#6f477d',
 };
