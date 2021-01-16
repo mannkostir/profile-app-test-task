@@ -4,7 +4,7 @@
 
 1. Clone project:
 
-   `git clone https://github.com/mannkostir/memory-card-game.git`
+   `git clone https://github.com/mannkostir/profile-app-test-task.git`
 
 ### Running client
 
