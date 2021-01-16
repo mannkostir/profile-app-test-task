@@ -9,9 +9,6 @@
 ### Running client
 
 1. Run terminal from the _root_ of the project
-1. Go to **client** directory:
-
-   `cd client`
 
 1. Install dependencies:
 
