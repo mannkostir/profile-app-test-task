@@ -44,6 +44,7 @@ const SignUpForm = () => {
         name="passwordConfirm"
         validatorRules={{ hasLength: { min: 4, max: 16 } }}
         required={true}
+        placeholder="Confirm your password"
       />
       <AuthForm.SubmitButton>Sign In</AuthForm.SubmitButton>
     </AuthForm>
