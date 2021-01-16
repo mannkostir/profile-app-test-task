@@ -87,8 +87,6 @@ export default (prefix = '', app, wss) => {
 
       const { page, limit } = req.query;
 
-      console.log(page, query);
-
       const {
         contacts,
         contactsTotalAmount,

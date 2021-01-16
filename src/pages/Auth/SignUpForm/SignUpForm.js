@@ -1,11 +1,14 @@
 import AuthForm from 'components/AuthForm';
+import ErrorMessage from 'components/ErrorMessage';
 import { useAuthContext } from 'context/AuthContext';
 import { useAPI } from 'hooks/useAPI';
-import React from 'react';
+import React, { useState } from 'react';
 
 const SignUpForm = () => {
   const api = useAPI();
   const { signIn } = useAuthContext();
+
+  const [error, setError] = useState({});
 
   const handleSignUp = async (values) => {
     try {
@@ -21,13 +24,14 @@ const SignUpForm = () => {
 
       signIn({ userId: userData.userId, username: userData.username });
     } catch (e) {
-      console.error(e);
+      setError(e);
     }
   };
 
   return (
     <AuthForm onSubmit={handleSignUp}>
       <AuthForm.FormTitle>Sign Up</AuthForm.FormTitle>
+      <ErrorMessage>{error.message}</ErrorMessage>
       <AuthForm.UsernameInput
         validatorRules={{ hasLength: { min: 4, max: 16 } }}
         required={true}

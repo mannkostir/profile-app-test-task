@@ -61,7 +61,9 @@ const AddContact = () => {
           <ContactFormCompound.PhoneInput />
           <ContactFormCompound.EmailInput />
           <ContactFormCompound.CommentInput />
-          <ContactFormCompound.SubmitButton>
+          <ContactFormCompound.SubmitButton
+            style={{ padding: '0.5em 1em', marginBottom: '0.5em' }}
+          >
             Add
           </ContactFormCompound.SubmitButton>
         </ContactFormCompound.Form>
