@@ -85,12 +85,21 @@ export default (prefix = '', app, wss) => {
     try {
       const contactsService = new ContactsService(res.locals.user);
 
-      const { contacts } = await contactsService.GetAllContacts({});
+      const { page, limit } = req.query;
 
-      console.log('CONTACTS', contacts);
+      console.log(page, query);
+
+      const {
+        contacts,
+        contactsTotalAmount,
+      } = await contactsService.GetAllContacts({
+        page,
+        limit,
+      });
 
       return res.status(200).json({
         contacts,
+        contactsTotalAmount,
       });
     } catch (e) {
       return next(e);

@@ -4,11 +4,12 @@ import { useContactsContext } from 'context/ContactsContext';
 import { useAPI } from 'hooks/useAPI';
 import { useForm } from 'hooks/useForm';
 import { useInput } from 'hooks/useInput';
+import { usePagination } from 'hooks/usePagination';
 import { useToggle } from 'hooks/useToggle';
 import React, { useRef, useState } from 'react';
 import { SearchForm, SearchToggleIcon } from './Search.styles';
 
-const Search = () => {
+const Search = ({ setFilteredContacts = (contacts) => {} }) => {
   const [error, setError] = useState({ message: '' });
 
   const { isOn, toggle } = useToggle();
@@ -16,8 +17,6 @@ const Search = () => {
   const { values, handleChange } = useForm({});
 
   const { triggerInputChangeEvent } = useInput();
-
-  const { filterContacts, setCurrentContacts } = useContactsContext();
 
   const [isSearching, setIsSearching] = useState(false);
 
@@ -31,14 +30,16 @@ const Search = () => {
     try {
       setIsSearching(true);
 
-      // If contacts are already filtered, fetch all contacts again
-      // TO DO: Need to create contacts value for display only in order to avoid calling api
-      if (Object.values(values).length) {
-        const { contacts } = await api.getAllContacts();
-        filterContacts(values, contacts);
-      } else {
-        filterContacts(values);
-      }
+      const { contacts } = await api.getAllContacts({});
+
+      const filteredContacts = contacts.filter((contact) => {
+        return Object.entries(values).every(([prop, value]) => {
+          if (!prop || !value) return true;
+          return contact[prop].includes(value);
+        });
+      });
+
+      setFilteredContacts(filteredContacts);
 
       if (isOn) toggle();
     } catch (e) {
@@ -54,8 +55,8 @@ const Search = () => {
     try {
       setIsSearching(true);
 
-      const { contacts } = await api.getAllContacts();
-      setCurrentContacts(contacts);
+      setFilteredContacts(null);
+
       triggerInputChangeEvent(searchInput.current, '');
 
       if (isOn) toggle();

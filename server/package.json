@@ -8,7 +8,8 @@
   "scripts": {
     "start-dev": "nodemon ./src/app.js --exec \"node --experimental-modules --es-module-specifier-resolution=node \"",
     "start": "node --experimental-modules --es-module-specifier-resolution=node ./src/app.js",
-    "start-json": "json-server --watch db.json --port 5050 --experimental-modules --es-module-specifier-resolution=node ./src/app.js",
+    "start-json": "json-server --watch db.json --port 5000 --experimental-modules --es-module-specifier-resolution=node ./src/app.js",
+    "startik": "nodemon ./src/app.js --exec \"json-server --watch db.json --port 5000 --experimental-modules --es-module-specifier-resolution=node \"",
     "eslint": "eslint"
   },
   "devDependencies": {

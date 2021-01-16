@@ -135,9 +135,21 @@ export default class ContactsService {
 
     return { contact };
   }
-  async GetAllContacts({}) {
-    const contacts = this.user.contacts;
+  async GetAllContacts({ page, limit }) {
+    let contactsToSend = [];
 
-    return { contacts };
+    if (!page || !limit) {
+      contactsToSend = this.user.contacts;
+    } else {
+      contactsToSend = this.user.contacts.slice(
+        limit * page - limit,
+        limit * page
+      );
+    }
+
+    return {
+      contacts: contactsToSend,
+      contactsTotalAmount: this.user.contacts.length,
+    };
   }
 }

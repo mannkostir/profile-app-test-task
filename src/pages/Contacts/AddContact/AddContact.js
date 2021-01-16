@@ -21,16 +21,6 @@ const AddContact = () => {
 
   const [error, setError] = useState({ message: '' });
 
-  useEffect(() => {
-    if (!isOn) {
-      setError({ message: '' });
-
-      formRef.current.querySelectorAll('input').forEach((input) => {
-        triggerInputChangeEvent(input, '');
-      });
-    }
-  }, [isOn]);
-
   const handleSubmit = async (formValues) => {
     try {
       const data = await api.createContact({
@@ -43,6 +33,12 @@ const AddContact = () => {
       const contact = data.contact;
 
       addContact(contact);
+
+      if (error) setError();
+
+      formRef.current.querySelectorAll('input').forEach((input) => {
+        triggerInputChangeEvent(input, '');
+      });
 
       if (isOn) toggle();
     } catch (e) {
@@ -58,7 +54,7 @@ const AddContact = () => {
       xAxisCoords="40vh"
     >
       <h2>Add Contact</h2>
-      <ContactFormCompound disabled={error?.message} onSubmit={handleSubmit}>
+      <ContactFormCompound disabled={api.isLoading} onSubmit={handleSubmit}>
         <ErrorMessage>{error?.message}</ErrorMessage>
         <ContactFormCompound.Form ref={formRef}>
           <ContactFormCompound.NameInput />

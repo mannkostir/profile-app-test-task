@@ -27,7 +27,7 @@ export const useAPI = () => {
   };
 
   const [error, _setError] = useState({ message: '' });
-  const [isLoading, _setIsLoading] = useState(true);
+  const [isLoading, _setIsLoading] = useState(false);
 
   const signUp = async ({ username = '', password = '' }) => {
     try {
@@ -159,15 +159,20 @@ export const useAPI = () => {
     }
   };
 
-  const getAllContacts = async () => {
+  const getAllContacts = async ({ page, limit } = {}) => {
     try {
       _setIsLoading(true);
 
-      const data = await _fetch('/contacts', {
+      const query = page && limit ? `?page=${page}&limit=${limit}` : '';
+
+      const data = await _fetch(`/contacts${query}`, {
         method: 'GET',
       });
 
-      return { contacts: [...data.contacts] };
+      return {
+        contacts: data.contacts,
+        contactsTotalAmount: data.contactsTotalAmount,
+      };
     } catch (e) {
       _setError(e);
       throw e;

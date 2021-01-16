@@ -5,6 +5,7 @@ import { ReactComponent as Edit } from 'images/writing.svg';
 export const StyledContactsList = styled.ul`
   display: flex;
   flex-direction: column;
+  align-items: center;
   width: 100%;
   max-width: 35em;
   gap: 2em;
@@ -13,6 +14,7 @@ export const StyledContactsList = styled.ul`
 export const ContactsListContainer = styled.div`
   display: flex;
   flex-flow: column wrap;
+  height: 100%;
   width: 100%;
   justify-content: center;
   align-items: center;
