@@ -14,7 +14,7 @@ const ModalDialog = ({
   return isOpen ? (
     <StyledDialog {...args}>
       <CloseDialogButton onClick={onClose}>
-        <CloseDialogIcon width="auto" height="auto" />
+        <CloseDialogIcon width="100%" height="100%" />
       </CloseDialogButton>
       {children}
     </StyledDialog>

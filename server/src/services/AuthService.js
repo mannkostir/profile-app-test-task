@@ -25,7 +25,14 @@ export default class AuthService {
 
       const hashedPassword = await bcrypt.hash(password, 10);
 
-      const user = { ...this.userModel, username, password: hashedPassword };
+      const lastUserId = data.users[data.users.length - 1]?.id || 0;
+
+      const user = {
+        ...this.userModel,
+        username,
+        password: hashedPassword,
+        id: lastUserId + 1,
+      };
 
       data.users.push(user);
 

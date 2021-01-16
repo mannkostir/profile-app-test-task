@@ -28,7 +28,7 @@ const EditButton = ({ onClick = (e) => {}, ...args }) => {
 
   return (
     <ControlButton {...args} onClick={handleClick}>
-      <EditIcon />
+      <EditIcon height="100%" width="100%" />
     </ControlButton>
   );
 };
@@ -45,7 +45,7 @@ const DeleteButton = ({ onClick = (e) => {}, ...args }) => {
 
   return (
     <ControlButton {...args} onClick={handleClick}>
-      <DeleteIcon />
+      <DeleteIcon height="100%" width="100%" />
     </ControlButton>
   );
 };

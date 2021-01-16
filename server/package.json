@@ -8,7 +8,7 @@
   "scripts": {
     "start-dev": "nodemon ./src/app.js --exec \"node --experimental-modules --es-module-specifier-resolution=node \"",
     "start": "node --experimental-modules --es-module-specifier-resolution=node ./src/app.js",
-    "start-json": "json-server --watch db.json --port 5000 --experimental-modules --es-module-specifier-resolution=node ./src/app.js",
+    "start-json": "json-server --watch db.json --port 5050 --experimental-modules --es-module-specifier-resolution=node ./src/app.js",
     "eslint": "eslint"
   },
   "devDependencies": {
@@ -19,6 +19,7 @@
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
     "json-server": "^0.16.3",
-    "jsonwebtoken": "^8.5.1"
+    "jsonwebtoken": "^8.5.1",
+    "ws": "^7.4.2"
   }
 }

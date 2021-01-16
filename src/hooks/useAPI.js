@@ -1,74 +1,191 @@
-export const useAPI = () => {
-  const signUp = async ({ username = '', password = '' }) => {
-    const res = await fetch('/auth/signup', {
-      method: 'POST',
-      body: { username, password },
-    });
-    const data = await res.json();
+import { useState } from 'react';
 
-    return data;
+export const useAPI = () => {
+  const _fetch = async (url, options = {}) => {
+    try {
+      if (options.body) options.body = JSON.stringify(options.body);
+      if (!options.headers) options.headers = {};
+      if (!options.body) options.body = null;
+      options.headers['Content-Type'] = 'application/json';
+
+      const response = await window.fetch(url, options);
+
+      const data = response.status !== 204 ? await response.json() : response;
+
+      if (!response.ok) {
+        throw new Error(
+          data.message || 'Something went wrong, try again later'
+        );
+      }
+
+      return data;
+    } catch (e) {
+      throw e;
+    } finally {
+      _setIsLoading(false);
+    }
+  };
+
+  const [error, _setError] = useState({ message: '' });
+  const [isLoading, _setIsLoading] = useState(true);
+
+  const signUp = async ({ username = '', password = '' }) => {
+    try {
+      _setIsLoading(true);
+
+      const data = await _fetch('/auth/signup', {
+        method: 'POST',
+        body: { username, password },
+      });
+
+      return { username: data.username, message: data.message };
+    } catch (e) {
+      _setError(e);
+      throw e;
+    } finally {
+      _setIsLoading(false);
+    }
   };
 
   const signIn = async ({ username = '', password = '' }) => {
-    const res = await fetch('/auth/signin', {
-      method: 'POST',
-      body: { username, password },
-    });
-    const data = await res.json();
+    try {
+      _setIsLoading(true);
 
-    return data;
+      const data = await _fetch('/auth/signin', {
+        method: 'POST',
+        body: { username, password },
+      });
+
+      return {
+        username: `${data.username}`,
+        userId: `${data.userId}`,
+        message: `${data.message}`,
+      };
+    } catch (e) {
+      _setError(e);
+      throw e;
+    } finally {
+      _setIsLoading(false);
+    }
   };
 
   const signOut = async () => {
-    await fetch('/auth/logout', {
-      method: 'POST'
-    });
+    try {
+      _setIsLoading(true);
+
+      await _fetch('/auth/logout', {
+        method: 'POST',
+      });
+    } catch (e) {
+      _setError(e);
+      throw e;
+    } finally {
+      _setIsLoading(false);
+    }
   };
 
-  const createContact = ({ name = '', email = '', phone = '', comment = '' }) => {
-    const res = await fetch('/contacts/', {
-      method: 'POST',
-      body: { name, email, phone, comment }
-    });
-    const data = await res.json();
+  const createContact = async ({
+    name = '',
+    email = '',
+    phone = '',
+    comment = '',
+  }) => {
+    try {
+      _setIsLoading(true);
 
-    return data;
+      const data = await _fetch('/contacts/', {
+        method: 'POST',
+        body: { name, email, phone, comment },
+      });
+
+      return { contact: { ...data.contact }, message: `${data.message}` };
+    } catch (e) {
+      _setError(e);
+      throw e;
+    } finally {
+      _setIsLoading(false);
+    }
   };
 
-  const deleteContact = ({contactId =  ''}) => {
-    const res = await fetch(`/contacts/${contactId}`, {
-      method: 'DELETE'
-    });
-    const data = await res.json();
+  const deleteContact = async ({ contactId = '' }) => {
+    try {
+      _setIsLoading(true);
 
-    return data;
-  }
+      const data = await _fetch(`/contacts/${contactId}`, {
+        method: 'DELETE',
+      });
 
-  const updateContact = ({contactId = '', updatedData = {}}) => {
-    const res = await fetch(`/contacts/${contactId}`, {
-      method: 'PUT',
-      body: {payload: updatedData}
-    });
-    const data = await res.json();
+      return { message: `${data.message}` };
+    } catch (e) {
+      _setError(e);
+      throw e;
+    } finally {
+      _setIsLoading(false);
+    }
+  };
 
-    return data;
-  }
+  const updateContact = async ({ contactId = '', updatedData = {} }) => {
+    try {
+      _setIsLoading(true);
 
-  const getContact = ({contactId}) => {
-    const res = await fetch(`/contacts/${contactId}`, {
-      method: 'GET'
-    });
-    const data = await res.json();
+      const data = await _fetch(`/contacts/${contactId}`, {
+        method: 'PUT',
+        body: { payload: updatedData },
+      });
 
-    return data;
-  }
+      return { contact: { ...data.contact }, message: `${data.message}` };
+    } catch (e) {
+      _setError(e);
+      throw e;
+    } finally {
+      _setIsLoading(false);
+    }
+  };
 
-  const getAllContacts = () => {
-    const res = await fetch('/contacts', {
-      method: 'GET'
-    });
-    const data = await res.json();
-  }
+  const getContact = async ({ contactId }) => {
+    try {
+      _setIsLoading(true);
 
-  return {signUp, signIn, signOut, createContact, deleteContact, updateContact, getContact, getAllContacts}
+      const data = await _fetch(`/contacts/${contactId}`, {
+        method: 'GET',
+      });
+
+      return { contact: { ...data.contact } };
+    } catch (e) {
+      _setError(e);
+      throw e;
+    } finally {
+      _setIsLoading(false);
+    }
+  };
+
+  const getAllContacts = async () => {
+    try {
+      _setIsLoading(true);
+
+      const data = await _fetch('/contacts', {
+        method: 'GET',
+      });
+
+      return { contacts: [...data.contacts] };
+    } catch (e) {
+      _setError(e);
+      throw e;
+    } finally {
+      _setIsLoading(false);
+    }
+  };
+
+  return {
+    signUp,
+    signIn,
+    signOut,
+    createContact,
+    deleteContact,
+    updateContact,
+    getContact,
+    getAllContacts,
+    error,
+    isLoading,
+  };
 };

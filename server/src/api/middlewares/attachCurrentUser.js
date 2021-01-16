@@ -7,15 +7,13 @@ const attachCurrentUser = async (req, res, next) => {
     const db = await fsPromises.readFile('db.json');
     const data = JSON.parse(db);
 
-    const user = data.users.find((user) => user.userId === req.userId);
+    const user = data.users.find((user) => user.id === req.userId);
 
     if (!user) {
       return res.sendStatus(401);
     }
 
     res.locals.user = user;
-
-    console.log(user);
 
     return next();
   } catch (e) {

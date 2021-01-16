@@ -16,7 +16,7 @@ export const authReducer = (state, action = { username: '', userId: '' }) => {
       );
     case authActionTypes.SIGN_OUT:
       localStorage.removeItem(localStorageKeys.authState);
-      return defaultAuthState;
+      return {};
     default:
       throw new Error(`Action type ${action.type} not specified`);
   }

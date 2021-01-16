@@ -12,9 +12,10 @@ export const StyledContactsList = styled.ul`
 
 export const ContactsListContainer = styled.div`
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: column wrap;
   width: 100%;
   justify-content: center;
+  align-items: center;
 `;
 
 export const ContactsItem = styled.li`

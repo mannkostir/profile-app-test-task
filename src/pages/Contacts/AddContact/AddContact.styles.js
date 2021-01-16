@@ -10,4 +10,7 @@ export const RequiredFieldsTip = styled.p`
 export const AddContactForm = styled.form`
   width: 80%;
   gap: 1.5em;
+  div {
+    width: 100%;
+  }
 `;

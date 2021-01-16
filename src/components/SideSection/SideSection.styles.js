@@ -1,16 +1,14 @@
 import styled from 'styled-components';
 import { ReactComponent as Search } from 'images/magnifier.svg';
 
-export const SideContainer = styled.div`
+export const StyledSideSection = styled.section`
+  box-sizing: border-box;
   position: fixed;
   top: 0;
-  display: flex;
-  flex-direction: column;
-  padding: 2em 0;
+  padding: 10vh 1em;
   left: 0;
   width: 60%;
   height: 100%;
-  align-items: center;
   background: ${({ theme }) => theme.surfaceBackground};
   transition: 0.5s ease;
   box-shadow: 0px 10px 10px 5px ${({ theme }) => theme.boxShadowColor};
@@ -25,6 +23,16 @@ export const SideContainer = styled.div`
       left: -30em;
     }
   }
+`;
+
+export const SideSectionContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: scroll;
+  height: 100%;
+  width: 100%;
+  background: transparent;
 `;
 
 export const SideSectionToggle = styled.button`

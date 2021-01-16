@@ -11,6 +11,9 @@ export const AppStyles = createGlobalStyle`
     color: #151515;
     margin: 0;
     height: 100%;
+    > * {
+      box-sizing: border-box;
+    }
     @media (max-width: 1600px) {
       // Credit for math: https://www.madebymike.com.au/writing/precise-control-responsive-typography/
 
@@ -56,6 +59,9 @@ export const AppStyles = createGlobalStyle`
     &:hover {
       color: ${({ theme }) => theme.fontAccentColor};
     }
+    &:disabled {
+      background: red;
+    }
   }
   ul {
     padding: 0;
@@ -76,7 +82,7 @@ export const AppStyles = createGlobalStyle`
     max-height: 100%;
   }
   h1 {
-    font-size: 3em;
+    font-size: 2.5em;
     margin: 0.3em;
     margin-bottom: 1.5em;
   }

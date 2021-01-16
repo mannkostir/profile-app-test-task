@@ -1,45 +1,53 @@
+import ErrorMessage from 'components/ErrorMessage';
 import { interactionModes } from 'constants/interactionModes';
 import { useContactsContext } from 'context/ContactsContext';
-import { useForm } from 'hooks/useForm';
-import React from 'react';
+import { useAPI } from 'hooks/useAPI';
+import React, { useEffect, useState } from 'react';
+import ContactFormCompound from '../ContactForm';
 
-const EditContact = ({ contactData = {} }) => {
-  const { setInteractionMode } = useContactsContext();
+const EditContact = ({
+  contactData = { contactId: '', name: '', email: '', phone: '', comment: '' },
+}) => {
+  const { setInteractionMode, editContact } = useContactsContext();
 
-  const { values, handleChange } = useForm({});
+  const [error, setError] = useState({ message: '' });
 
-  const handleEdit = (e) => {
-    e.preventDefault();
-    setInteractionMode(interactionModes.view);
+  const api = useAPI();
+
+  useEffect(() => {
+    return () => setInteractionMode(interactionModes.view);
+  }, []);
+
+  const handleEdit = async (formValues = {}) => {
+    try {
+      const data = await api.updateContact({
+        contactId: contactData.contactId,
+        updatedData: formValues,
+      });
+
+      const newContact = data.contact;
+
+      editContact(contactData.contactId, newContact);
+
+      setInteractionMode(interactionModes.view);
+    } catch (e) {
+      setError(e);
+    }
   };
 
   return (
-    <form onSubmit={handleEdit}>
-      <label>
-        Name:
-        <input type="text" onChange={handleChange} />
-      </label>
-      <br />
-      <label>
-        Mobile:
-        <input type="tel" onChange={handleChange} />
-      </label>
-      <br />
-      <label>
-        Email:
-        <input type="email" onChange={handleChange} />
-      </label>
-      <br />
-      <label>
-        Comment:
-        <textarea onChange={handleChange} />
-      </label>
-      <br />
-      <button onClick={() => setInteractionMode(interactionModes.view)}>
-        Discard
-      </button>
-      <button type="submit">Save Changes</button>
-    </form>
+    <ContactFormCompound disabled={error?.message} onSubmit={handleEdit}>
+      <ErrorMessage>{error?.message}</ErrorMessage>
+      <ContactFormCompound.Form>
+        <ContactFormCompound.NameInput defaultValue={contactData.name} />
+        <ContactFormCompound.PhoneInput defaultValue={contactData.phone} />
+        <ContactFormCompound.EmailInput defaultValue={contactData.email} />
+        <ContactFormCompound.CommentInput defaultValue={contactData.comment} />
+        <ContactFormCompound.SubmitButton>
+          Save Changes
+        </ContactFormCompound.SubmitButton>
+      </ContactFormCompound.Form>
+    </ContactFormCompound>
   );
 };
 

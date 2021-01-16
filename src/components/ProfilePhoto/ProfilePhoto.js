@@ -4,7 +4,7 @@ import { ImgContainer, UserImage } from './ProfilePhoto.styles';
 const ProfilePhoto = () => {
   return (
     <ImgContainer>
-      <UserImage height="auto" width="auto" />
+      <UserImage height="100%" width="100%" />
     </ImgContainer>
   );
 };

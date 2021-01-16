@@ -4,9 +4,15 @@ import contactsActionTypes from './contactsActionTypes';
 
 export const contactsReducer = (
   state,
-  action = { interactionMode: '', deleteRequest: {} }
+  action = { interactionMode: '' } || { deleteRequest: {} } || {
+      currentContacts: [],
+    } || { isLoading: false }
 ) => {
   switch (action.type) {
+    case contactsActionTypes.SET_CURRENT_CONTACTS:
+      return updateState(state, {
+        currentContacts: action.currentContacts,
+      });
     case contactsActionTypes.SET_INTERACTION_MODE:
       return updateState(state, {
         interactionMode: action.interactionMode,

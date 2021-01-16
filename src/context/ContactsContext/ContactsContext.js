@@ -4,11 +4,12 @@ import { interactionModes } from 'constants/interactionModes';
 import { contactsReducer } from './contactsReducer';
 
 const rememberedContactsContext = JSON.parse(
-  localStorage.getItem(localStorageKeys.authState)
+  localStorage.getItem(localStorageKeys.contactsState)
 );
 
 const IContactsContext = {
   state: {
+    currentContacts: [],
     interactionMode: interactionModes.view,
     deleteRequest: { contactId: '' },
   },

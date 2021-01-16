@@ -3,10 +3,19 @@ import jsonServer from 'json-server';
 import bodyParser from 'body-parser';
 import auth from './api/routes/auth';
 import contacts from './api/routes/contacts';
+import WebSocket from 'ws';
+import http from 'http';
+import { EventEmitter } from 'events';
 
 const app = jsonServer.create();
 
+// const server = http.createServer(app);
+
+// const webSocketServer = new WebSocket.Server({ server });
+
 const router = jsonServer.router('db.json');
+
+// const eventEmitter = new EventEmitter();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -47,6 +56,16 @@ app.use((err, req, res, next) => {
 });
 
 const PORT = 5000;
+
+// webSocketServer.addListener('connection', (ws) => {
+//   eventEmitter.addListener('create', () => {
+//     ws.send('Hi there, I am a WebSocket server');
+//   });
+// });
+
+// server.listen(PORT, () =>
+//   console.log('Server has been started on port ' + PORT)
+// );
 
 app.listen(PORT, () => {
   console.log('Server has been started on port ' + PORT);

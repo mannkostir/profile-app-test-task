@@ -1,15 +1,19 @@
 import { interactionModes } from 'constants/interactionModes';
 import { useContactsContext } from 'context/ContactsContext';
+import { useAPI } from 'hooks/useAPI';
 import React, { useEffect } from 'react';
 import ControlButtons from '../ControlButtons';
 import EditContact from '../EditContact';
 import ViewContact from '../ViewContact';
 
-const Contact = ({ contactData = { contactId: 'asd', contactName: '' } }) => {
+const Contact = ({
+  contactData = { contactId: '', name: '', email: '', phone: '', comment: '' },
+}) => {
   const {
     interactionMode,
     setInteractionMode,
     setDeleteRequest,
+    currentContacts,
   } = useContactsContext();
 
   useEffect(() => setInteractionMode(interactionModes.view), []);
@@ -28,15 +32,16 @@ const Contact = ({ contactData = { contactId: 'asd', contactName: '' } }) => {
         <ControlButtons.EditButton />
         <ControlButtons.DeleteButton
           onClick={() => {
+            console.log(contactData);
             setDeleteRequest({ contactId: contactData.contactId });
           }}
         />
       </ControlButtons>
       {(() => {
         if (interactionMode === interactionModes.edit) {
-          return <EditContact />;
+          return <EditContact contactData={contactData} />;
         } else {
-          return <ViewContact />;
+          return <ViewContact contactData={contactData} />;
         }
       })()}
     </>

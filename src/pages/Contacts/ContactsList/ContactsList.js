@@ -1,12 +1,9 @@
 import ModalDialog from 'components/ModalDialog';
-import { interactionModes } from 'constants/interactionModes';
 import { useContactsContext } from 'context/ContactsContext';
+import { useAPI } from 'hooks/useAPI';
 import { useToggle } from 'hooks/useToggle';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Contact from '../Contact/Contact';
-import ControlButtons from '../ControlButtons';
-import EditContact from '../EditContact';
-import ViewContact from '../ViewContact';
 import {
   StyledContactsList,
   ContactsItem,
@@ -15,21 +12,57 @@ import {
 
 const ContactsList = () => {
   const {
-    setInteractionMode,
+    currentContacts,
     setDeleteRequest,
     deleteRequest,
+    setCurrentContacts,
+    deleteContact,
+    interactionMode,
   } = useContactsContext();
+
+  const [contactData, setContactData] = useState({});
+
+  const api = useAPI();
+
+  useEffect(() => {
+    // Set contacts as state on mount
+    (async () => {
+      const data = await api.getAllContacts();
+      const contacts = data.contacts;
+
+      setCurrentContacts(contacts);
+    })();
+  }, []);
 
   const { isOn, toggle } = useToggle();
 
-  const handleDelete = (e) => {
+  useEffect(() => {
+    // Synchronize modal dialog contact with changed data
+    if (contactData.contactId && currentContacts.length) {
+      const contact = currentContacts.find(
+        (contact) => contact.id === contactData.contactId
+      );
+
+      if (!contact) return;
+
+      setContactData({ contactId: contact.id, ...contact });
+    }
+  }, [interactionMode]);
+
+  const handleDelete = async (e) => {
     e.preventDefault();
+
+    await api.deleteContact({ contactId: deleteRequest.contactId });
+
+    deleteContact(deleteRequest.contactId);
   };
 
   return (
     <ContactsListContainer>
+      <h1>Contacts</h1>
+      {api.isLoading ? 'LOADING...' : null}
       <ModalDialog
-        isOpen={!!deleteRequest.contactId}
+        isOpen={!!deleteRequest?.contactId}
         onClose={() => setDeleteRequest({})}
         style={{ zIndex: '2' }}
       >
@@ -55,19 +88,29 @@ const ContactsList = () => {
         </div>
       </ModalDialog>
       <ModalDialog isOpen={isOn} onClose={toggle} style={{ zIndex: '1' }}>
-        <Contact />
+        <Contact contactData={contactData} />
       </ModalDialog>
       <StyledContactsList>
-        <ContactsItem
-          onClick={toggle}
-          contactData={{
-            contactId: 'test',
-            name: 'John Doe',
-            email: 'qwerty@asd.xyz',
-          }}
-        >
-          Contact's Name
-          {/* <ControlButtons>
+        {currentContacts.map((contact) => {
+          return (
+            <ContactsItem
+              key={contact.id}
+              onClick={() => {
+                setContactData({
+                  contactId: contact.id,
+                  name: contact.name,
+                  email: contact.email,
+                  phone: contact.phone,
+                  comment: contact.comment,
+                });
+                toggle();
+              }}
+            >
+              {contact.name}
+            </ContactsItem>
+          );
+        })}
+        {/* <ControlButtons>
             <ControlButtons.EditButton />
             <ControlButtons.DeleteButton
               onClick={(e) => {
@@ -76,12 +119,6 @@ const ContactsList = () => {
               }}
             />
           </ControlButtons> */}
-        </ContactsItem>
-        <ContactsItem>Contact's Name</ContactsItem>
-        <ContactsItem>Contact's Name</ContactsItem>
-        <ContactsItem>Contact's Name</ContactsItem>
-        <ContactsItem>Contact's Name</ContactsItem>
-        <ContactsItem>Contact's Name</ContactsItem>
       </StyledContactsList>
     </ContactsListContainer>
   );

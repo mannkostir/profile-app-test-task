@@ -1,15 +1,17 @@
 import React from 'react';
 
-const ViewContact = ({ contactData = {} }) => {
+const ViewContact = ({
+  contactData = { contactId: '', name: '', email: '', phone: '', comment: '' },
+}) => {
   return (
     <>
-      Name: John Doe
+      Name: {contactData.name}
       <br />
-      Mobile: +7-888-888-88-88
+      Mobile: {contactData.phone}
       <br />
-      Email: qwerty@asd.xyz
+      Email: {contactData.email}
       <br />
-      Comment: Some mean person that's for sure
+      Comment: {contactData.comment}
     </>
   );
 };

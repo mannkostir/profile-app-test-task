@@ -1,9 +1,10 @@
 import { useToggle } from 'hooks/useToggle';
 import React from 'react';
 import {
-  SideContainer,
+  StyledSideSection,
   SideSectionToggle,
   ToggleIcon,
+  SideSectionContent,
 } from './SideSection.styles';
 
 const SideSection = ({
@@ -15,12 +16,14 @@ const SideSection = ({
   ...args
 }) => {
   return (
-    <SideContainer data-visibility={isOpen ? 'visible' : 'hidden'}>
-      <SideSectionToggle style={{ top: xAxisCoords }} onClick={onClose}>
-        {ToggleIcon ? <ToggleIcon width="auto" height="auto" /> : null}
-      </SideSectionToggle>
-      {children}
-    </SideContainer>
+    <StyledSideSection data-visibility={isOpen ? 'visible' : 'hidden'}>
+      <SideSectionContent>
+        <SideSectionToggle style={{ top: xAxisCoords }} onClick={onClose}>
+          {ToggleIcon ? <ToggleIcon width="100%" height="100%" /> : null}
+        </SideSectionToggle>
+        {children}
+      </SideSectionContent>
+    </StyledSideSection>
   );
 };
 

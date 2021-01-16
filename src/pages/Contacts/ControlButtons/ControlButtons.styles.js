@@ -14,20 +14,16 @@ export const ControlButtonsContainer = styled.div`
 
 export const ControlButton = styled.button`
   width: 2em;
-  height: 100%;
+  height: auto;
 `;
 
 export const DeleteIcon = styled(Delete)`
-  width: auto;
-  height: 100%;
   &:hover {
     fill: red;
   }
 `;
 
 export const EditIcon = styled(Edit)`
-  width: auto;
-  height: 100%;
   &:hover {
     fill: blue;
   }

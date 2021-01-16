@@ -1,18 +1,19 @@
 import fs from 'fs';
-import Contact from '../models/Contact';
+import User from '../models/User';
+import ContactModel from '../models/Contact';
 
 const fsPromises = fs.promises;
 
-export default class AuthService {
-  constructor(contactModel = Contact) {
-    this.contactModel = contactModel;
+export default class ContactsService {
+  constructor(user = User) {
+    this.user = user;
   }
   async CreateContact({ name = '', email = '', phone = '', comment = '' }) {
     try {
-      const db = await fsPromises.readFile('db.json');
-      const data = JSON.parse(db);
+      let db = await fsPromises.readFile('db.json');
+      db = JSON.parse(db);
 
-      const isContactExists = !!data.contacts.find(
+      const isContactExists = !!this.user.contacts.find(
         (contact) =>
           contact.name === name &&
           contact.email === email &&
@@ -26,19 +27,28 @@ export default class AuthService {
         throw err;
       }
 
-      const lastContactId = data.contacts[data.contacts.length - 1]?.id || 0;
+      const lastContactId =
+        this.user.contacts[this.user.contacts.length - 1]?.id || 0;
 
       const contact = {
-        ...this.contactModel,
+        ...ContactModel,
         name,
         email,
         phone,
-        id: lastContactId,
+        comment,
+        id: `${+lastContactId + 1}`,
       };
 
-      data.contacts.push(contact);
+      this.user.contacts.push(contact);
 
-      await fsPromises.writeFile('db.json', JSON.stringify(data));
+      db.users.map((user) => {
+        if (user.id === this.user.id) {
+          user.contacts = this.user.contacts;
+        }
+        return user;
+      });
+
+      await fsPromises.writeFile('db.json', JSON.stringify(db));
 
       return { contact };
     } catch (e) {
@@ -47,60 +57,74 @@ export default class AuthService {
   }
   async DeleteContact({ contactId = '' }) {
     try {
-      const db = await fsPromises.readFile('db.json');
-      const data = JSON.parse(db);
+      let db = await fsPromises.readFile('db.json');
+      db = JSON.parse(db);
 
-      const previousLength = data.contacts.length;
+      const previousLength = this.user.contacts.length;
 
-      data.contacts = data.contacts.filter(
+      this.user.contacts = this.user.contacts.filter(
         (contact) => contact.id !== contactId
       );
 
-      if (data.contacts.length === previousLength) {
+      if (this.user.contacts.length === previousLength) {
         const err = new Error('No such contact is found');
         err.status = '404';
 
         throw err;
       }
 
-      await fsPromises.writeFile('db.json', JSON.stringify(data));
+      db.users.map((user) => {
+        if (user.id === this.user.id) {
+          user.contacts = this.user.contacts;
+        }
+        return user;
+      });
 
-      return { contacts: data.contacts };
+      await fsPromises.writeFile('db.json', JSON.stringify(db));
+
+      return { message: 'Contact deleted' };
     } catch (e) {
       throw e;
     }
   }
   async EditContact({ contactId = '', newData = {} }) {
-    const db = await fsPromises.readFile('db.json');
-    const data = JSON.parse(db);
+    let db = await fsPromises.readFile('db.json');
+    db = JSON.parse(db);
 
-    let isFound = false;
-    let updatedContact = {};
+    const contactIndex = this.user.contacts.findIndex(
+      (contact) => contact.id === contactId
+    );
 
-    data.contacts = data.contacts.map((contact) => {
-      if (contact.id === contactId) {
-        isFound = true;
-        updatedContact = { ...contact, ...newData };
-        return { ...contact, ...newData };
-      }
-    });
-
-    if (!isFound) {
+    if (contactIndex < 0) {
       const err = new Error('No such contact is found');
       err.status = '404';
 
       throw err;
     }
 
-    await fsPromises.writeFile('db.json', JSON.stringify(data));
+    this.user.contacts[contactIndex] = {
+      ...this.user.contacts[contactIndex],
+      ...newData,
+    };
 
-    return { updatedContact };
+    db.users.map((user) => {
+      if (user.id === this.user.id) {
+        user.contacts = this.user.contacts;
+      }
+      return user;
+    });
+
+    await fsPromises.writeFile('db.json', JSON.stringify(db));
+
+    return { contact: this.user.contacts[contactIndex] };
   }
   async GetContact({ contactId = '' }) {
-    const db = await fsPromises.readFile('db.json');
-    const data = JSON.parse(db);
+    let db = await fsPromises.readFile('db.json');
+    db = JSON.parse(db);
 
-    const contact = data.contacts.find((contact) => contact.id === contactId);
+    const contact = this.user.contacts.find(
+      (contact) => contact.id === contactId
+    );
 
     if (!contact) {
       const err = new Error('No such contact is found');
@@ -112,9 +136,8 @@ export default class AuthService {
     return { contact };
   }
   async GetAllContacts({}) {
-    const db = await fsPromises.readFile('db.json');
-    const data = JSON.parse(db);
+    const contacts = this.user.contacts;
 
-    return { contacts: data.contacts };
+    return { contacts };
   }
 }
