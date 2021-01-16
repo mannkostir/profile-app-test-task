@@ -1,1 +1,1 @@
-{"users":[{"username":"test","password":"$2a$10$G4MBRswBeYJk4W27ABTiiu8IuA/.dDhgcGzz.b0OaPngvOrjkwHgy","contacts":[{"name":"test","email":"","tel":"","comment":"","id":"1","phone":""},{"name":"testik","email":"dsa@sd.sdf","tel":"","comment":"","id":"2","phone":""},{"name":"notest","email":"","tel":"","comment":"","id":"3","phone":""}],"id":1}]}
+{ "users": [] }
